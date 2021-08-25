@@ -1,4 +1,6 @@
 class FrameController < ApplicationController
+  skip_before_action :verify_authenticity_token
+  # before_action :set_frame, only: [:show, :update, :destroy]
   # GET /todos
   def index
     # @user = User.all
@@ -24,8 +26,15 @@ class FrameController < ApplicationController
   end
 
   def show
-    @frame = Frame.find_by(make: params[:make])
+    # @frame = Frame.find_by(make: params[:make])
+    # pic = []
+    @frame = Frame.all
+    # @frame.each do |f|
+    #   pic << 
+    # end
     json_response(@frame)
+    # json_response(@frame, )
+
     # if @user.password == params[:password]
     #   json_response(@user)
     # else
@@ -47,10 +56,10 @@ class FrameController < ApplicationController
 
   def frame_params
     # params.permit(:make, :password)
-    params.permit(:make)
+    params.permit(:make, :pic)
   end
 
-  def set_user
+  def set_frame
     @frame = Frame.find_by(make: params[:make])
   end
 end

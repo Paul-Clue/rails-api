@@ -1,3 +1,3 @@
 class FrameSerializer < ActiveModel::Serializer
-  attributes :id, :make
+  attributes :id, :make, :pic
 end
