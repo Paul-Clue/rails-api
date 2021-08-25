@@ -5,3 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Frame.destroy_all
+
+gucci = Frame.create(make: 'gucci')
+
+gucci.pic.attach(io: File.open('./public/pic/gucci.jpg'), filename: 'gucci.jpg', content_type: 'appliction/jpg')
