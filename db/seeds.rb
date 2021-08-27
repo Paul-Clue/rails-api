@@ -24,3 +24,5 @@ tomford = Frame.create(make: 'Tom Ford', pic: 'https://media.designerframesoutle
 
 burberry = Frame.create(make: 'Burberry', pic: 'https://media.designerframesoutlet.com/images/Thumbs/0712101_tom-ford-eyeglasses-ft5527_580.jpeg')
 # burberry.pic.attach(io: File.open('./public/pic/burberry.jpg'), filename: 'burberry.jpg', content_type: 'appliction/jpg')
+
+User.create(name: 'ZzZzB', password: 'ZzZzB')

@@ -21,17 +21,45 @@ class UserController < ApplicationController
 
   # POST /todos
   def create
+    @check = User.all
+    @check.each do |v|
+      if v != user_params
+        next
+      else
+        render json: {message: 'This user is not authenticated.'}
+      end
+    end
+
     @user = User.create!(user_params)
     json_response(@user, :created)
   end
 
   def show
-    @user = User.find_by(name: params[:name])
-    if @user.password == params[:password]
-      json_response(@user)
-    else
-      render json: {message: 'This user is not authenticated.'}
+    @user1 = User.all
+    @user2 = []
+    @user1.each do |v|
+      @user2 << v
     end
+    puts "This #{@user2.class}"
+    if @user2.length < 1
+      no = {name: 'no'}
+      json_response(no)
+    else
+      @user2.each_with_index do |v, i|
+        if v.name == params[:name] && v.password == params[:password]
+          @user = User.find_by(name: params[:name])
+          json_response(@user)
+        else
+          render json: {message: 'This user is not authenticated.'}
+        end
+      end
+    end
+    # @user = User.find_by(name: params[:name])
+    # if @user.password == params[:password]
+    #   json_response(@user)
+    # else
+    #   render json: {message: 'This user is not authenticated.'}
+    # end
   end
 
   def update

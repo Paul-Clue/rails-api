@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :frame
 
     post 'login', to: 'user#show'
+    post 'login2', to: 'user#create'
     post 'appoint', to: 'appointments#create'
     get 'frm', to: 'frame#show'
     post 'frm', to: 'frame#show'
