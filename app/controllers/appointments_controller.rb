@@ -1,20 +1,27 @@
 class AppointmentsController < ApplicationController
   skip_before_action :verify_authenticity_token
   before_action :set_user
-  before_action :set_appointments, only: [:show, :update, :destroy]
+  before_action :set_appointments, only: [:update, :destroy]
 
   # GET /user/:user_id/appointments
   def index
-    json_response(@appoinment.name)
+    @app = @user.appointments.all
+    json_response(@app)
   end
 
   # GET /user/:user_id/appointments/:id
   def show
     # json_response(@appointments)
 
-    @appointment = Appointment.find_by(date: params[:date])
+    # @appointment = Appointment.find_by(user_id: params[:user_id])
+    @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
     # @appointment = Appointment.find_by(date: "fish")
-    json_response(@appointment.date)
+    if @appointments == nil
+      @message = {date: ''}
+      render json: (@message)
+    else
+      json_response(@appointments)
+    end
     # if @appointment.password == params[:password]
     #   json_response(@user)
     # else
@@ -44,7 +51,7 @@ class AppointmentsController < ApplicationController
   private
 
   def appointments_params
-    params.permit(:date, :user_id)
+    params.require(:appointment).permit(:date, :user_id, :frame_id)
   end
 
   def set_user

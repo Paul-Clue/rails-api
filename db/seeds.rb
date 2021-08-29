@@ -22,7 +22,7 @@ dg = Frame.create(make: 'D&G', pic: 'https://img-cdn1.cdnsbg.com/450/2/7/430309_
 tomford = Frame.create(make: 'Tom Ford', pic: 'https://media.designerframesoutlet.com/images/Thumbs/0712101_tom-ford-eyeglasses-ft5527_580.jpeg')
 # tomford.pic.attach(io: File.open('./public/pic/tomford.jpg'), filename: 'tomford.jpg', content_type: 'appliction/jpg')
 
-burberry = Frame.create(make: 'Burberry', pic: 'https://media.designerframesoutlet.com/images/Thumbs/0712101_tom-ford-eyeglasses-ft5527_580.jpeg')
+burberry = Frame.create(make: 'Burberry', pic: 'https://assets.lenscrafters.com/is/image/LensCrafters/8056597423236__002.png?impolicy=LC_grey&width=1024')
 # burberry.pic.attach(io: File.open('./public/pic/burberry.jpg'), filename: 'burberry.jpg', content_type: 'appliction/jpg')
 
-User.create(name: 'ZzZzB', password: 'ZzZzB')
+User.create(name: 'ZzZzYYYyy19B', password: 'ZzZzYYYyy19B')

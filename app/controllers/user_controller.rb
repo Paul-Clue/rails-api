@@ -40,18 +40,22 @@ class UserController < ApplicationController
     @user1.each do |v|
       @user2 << v
     end
+    @user = false
     puts "This #{@user2.class}"
-    if @user2.length < 1
+    if @user2.length <= 1
       no = {name: 'no'}
       json_response(no)
     else
       @user2.each_with_index do |v, i|
         if v.name == params[:name] && v.password == params[:password]
           @user = User.find_by(name: params[:name])
-          json_response(@user)
-        else
-          render json: {message: 'This user is not authenticated.'}
+          break
         end
+      end
+      if @user
+        json_response(@user)
+      else
+        render json: {message: 'This user is not authenticated.'}
       end
     end
     # @user = User.find_by(name: params[:name])
