@@ -11,16 +11,27 @@ class AppointmentsController < ApplicationController
 
   # GET /user/:user_id/appointments/:id
   def show
+    @app = @user.appointments.all
     # json_response(@appointments)
 
     # @appointment = Appointment.find_by(user_id: params[:user_id])
-    @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
+    if @user == nil
+      @appointments = nil
+    else
+      @app.each_with_index do |v|
+        if v.frame_id == params[:frame_id]
+          @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
+          json_response(@appointments)
+        end
+      end
+      # @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
+    end
     # @appointment = Appointment.find_by(date: "fish")
     if @appointments == nil
       @message = {date: ''}
       render json: (@message)
-    else
-      json_response(@appointments)
+    # else
+    #   json_response(@appointments)
     end
     # if @appointment.password == params[:password]
     #   json_response(@user)

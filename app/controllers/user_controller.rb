@@ -41,7 +41,7 @@ class UserController < ApplicationController
       @user2 << v
     end
     @user = false
-    puts "This #{@user2.class}"
+
     if @user2.length <= 1
       no = {name: 'no'}
       json_response(no)
