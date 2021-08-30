@@ -6,6 +6,8 @@ class AppointmentsController < ApplicationController
   # GET /user/:user_id/appointments
   def index
     @app = @user.appointments.all
+    # @app = @user.appointments.find_by!(frame_id: params[:frame_id])
+    puts "This: #{@app}"
     json_response(@app)
   end
 
@@ -62,7 +64,7 @@ class AppointmentsController < ApplicationController
   private
 
   def appointments_params
-    params.require(:appointment).permit(:date, :user_id, :frame_id)
+    params.require(:appointment).permit(:date, :user_id, :frame_id, :city)
   end
 
   def set_user

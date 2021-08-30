@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'User API', type: :request do
+RSpec.describe 'Test API', type: :request do
   # initialize test data
   let!(:user) { create_list(:user, 10) }
   let(:user_id) { user.first.id }

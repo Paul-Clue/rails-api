@@ -22,16 +22,20 @@ class UserController < ApplicationController
   # POST /todos
   def create
     @check = User.all
+    check = false
     @check.each do |v|
-      if v != user_params
-        next
-      else
-        render json: {message: 'This user is not authenticated.'}
+      if v.password == params[:password] && v.name == params[:name]
+        # render json: {message: 'no-no'}
+        check = true
+        break
       end
     end
-
-    @user = User.create!(user_params)
-    json_response(@user, :created)
+      if check
+        render json: {message: 'no-no'}
+      else
+        @user = User.create!(user_params)
+        json_response(@user, :created)
+      end
   end
 
   def show
