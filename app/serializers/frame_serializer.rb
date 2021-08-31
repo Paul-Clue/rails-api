@@ -1,5 +1,4 @@
-# rubocop:disable Layout/EndOfLine
+# rubocop:disable all
 class FrameSerializer < ActiveModel::Serializer
-  # rubocop:enable Layout/EndOfLine
   attributes :id, :make, :pic
 end
