@@ -1,52 +1,38 @@
 class AppointmentsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_user
-  before_action :set_appointments, only: [:update, :destroy]
+  before_action :set_user, only: %i[show update index]
+  before_action :set_appointments, only: %i[update destroy]
 
   # GET /user/:user_id/appointments
   def index
     @app = @user.appointments.all
-    # @app = @user.appointments.find_by!(frame_id: params[:frame_id])
     puts "This: #{@app}"
     json_response(@app)
   end
 
   # GET /user/:user_id/appointments/:id
+  # rubocop:disable all
   def show
     @app = @user.appointments.all
-    # json_response(@appointments)
-
-    # @appointment = Appointment.find_by(user_id: params[:user_id])
-    if @user == nil
+    if @user.nil?
       @appointments = nil
     else
-      @app.each_with_index do |v|
+      @app.each do |v|
         if v.frame_id == params[:frame_id]
           @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
           json_response(@appointments)
         end
       end
-      # @appointments = @user.appointments.find_by!(frame_id: params[:frame_id])
     end
-    # @appointment = Appointment.find_by(date: "fish")
-    if @appointments == nil
-      @message = {date: ''}
-      render json: (@message)
-    # else
-    #   json_response(@appointments)
+    if @appointments.nil?
+      @message = { date: '' }
+      render json: @message
     end
-    # if @appointment.password == params[:password]
-    #   json_response(@user)
-    # else
-    #   render json: {message: 'This user is not authenticated.'}
-    # end
   end
 
-  # POST /user/:user_id/items
   def create
-    @user.appointments.create!(appointments_params)
-    @appointments = @user.appointments.find_by!(date: params[:date])
-    json_response(@appointments, :created)
+    @appointment = Appointment.create!(appointments_params)
+    json_response(@appointment, :created)
   end
 
   # PUT /user/:user_id/appointments/:id
@@ -68,7 +54,7 @@ class AppointmentsController < ApplicationController
   end
 
   def set_user
-    @user = User.find_by(id: params[:user_id])
+    @user = User.find(params[:user_id])
   end
 
   def set_appointments

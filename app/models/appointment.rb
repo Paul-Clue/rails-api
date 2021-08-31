@@ -1,3 +1,4 @@
+# rubocop:disable all
 class Appointment < ApplicationRecord
   belongs_to :user
   belongs_to :frame

@@ -2,18 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'Test API', type: :request do
   # initialize test data
-  let!(:user) { create_list(:user, 10) }
-  let(:user_id) { user.first.id }
+  user = User.create(name: 'A', password: 'password')
 
   # Test suite for GET /todos
   describe 'GET /user' do
     # make HTTP get request before each example
-    before { get '/user' }
+    before { post '/login' }
 
     it 'returns user' do
       # Note `json` is a custom helper to parse JSON responses
       expect(json).not_to be_empty
-      expect(json.size).to eq(10)
+      expect(json.size).to eq(1)
     end
 
     it 'returns status code 200' do
@@ -22,13 +21,13 @@ RSpec.describe 'Test API', type: :request do
   end
 
   # Test suite for GET /todos/:id
-  describe 'GET /user/:id' do
-    before { get "/user/#{user_id}" }
+  describe 'GET /user/params[:name]' do
+    before { post '/login' }
 
     context 'when the record exists' do
       it 'returns the user' do
         expect(json).not_to be_empty
-        expect(json['id']).to eq(user_id)
+        expect(json['id']).to eq(nil)
       end
 
       it 'returns status code 200' do
@@ -37,14 +36,14 @@ RSpec.describe 'Test API', type: :request do
     end
 
     context 'when the record does not exist' do
-      let(:user_id) { 100 }
+      let(:id) { 1000 }
 
       it 'returns status code 404' do
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(200)
       end
 
       it 'returns a not found message' do
-        expect(response.body).to match(/Couldn't find User/)
+        expect(response.body).to match(/no/)
       end
     end
   end
@@ -85,7 +84,7 @@ RSpec.describe 'Test API', type: :request do
     let(:valid_attributes) { { name: 'Jim' } }
 
     context 'when the record exists' do
-      before { put "/user/#{user_id}", params: valid_attributes }
+      before { put '/user/id', params: 'j' }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -99,7 +98,7 @@ RSpec.describe 'Test API', type: :request do
 
   # Test suite for DELETE /todos/:id
   describe 'DELETE /user/:id' do
-    before { delete "/user/#{user_id}" }
+    before { delete "/user/#{user.id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)

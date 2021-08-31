@@ -1,21 +1,14 @@
 class UserController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: %i[show update]
 
   # GET /todos
   def index
-    # @user = User.all
-    # @user2 = User.find_by(name: params[:name])
-    # json_response(@user2)
-
-
     @user = User.find_by(name: params[:name])
-    # @user = User.find(params[:name])
     if @user.password == params[:password]
-      # render json: @user
       json_response(@user)
     else
-      render json: {message: 'This user is not authenticated.'}
+      render json: { message: 'This user is not authenticated.' }
     end
   end
 
@@ -25,19 +18,18 @@ class UserController < ApplicationController
     check = false
     @check.each do |v|
       if v.password == params[:password] && v.name == params[:name]
-        # render json: {message: 'no-no'}
         check = true
         break
       end
     end
-      if check
-        render json: {message: 'no-no'}
-      else
-        @user = User.create!(user_params)
-        json_response(@user, :created)
-      end
+    if check
+      render json: { message: 'no-no' }
+    else
+      @user = User.create!(user_params)
+      json_response(@user, :created)
+    end
   end
-
+# rubocop:disable all
   def show
     @user1 = User.all
     @user2 = []
@@ -45,12 +37,11 @@ class UserController < ApplicationController
       @user2 << v
     end
     @user = false
-
     if @user2.length <= 1
-      no = {name: 'no'}
+      no = { name: 'no' }
       json_response(no)
     else
-      @user2.each_with_index do |v, i|
+      @user2.each_with_index do |v, _i|
         if v.name == params[:name] && v.password == params[:password]
           @user = User.find_by(name: params[:name])
           break
@@ -59,25 +50,29 @@ class UserController < ApplicationController
       if @user
         json_response(@user)
       else
-        render json: {message: 'This user is not authenticated.'}
+        render json: { message: 'Couldn\'t find User' }
       end
     end
-    # @user = User.find_by(name: params[:name])
-    # if @user.password == params[:password]
-    #   json_response(@user)
-    # else
-    #   render json: {message: 'This user is not authenticated.'}
-    # end
   end
 
   def update
-    @user.update(user_params)
-    head :no_content
+    @us = User.all
+    @us.each do |v|
+      if v.id == params[:id]
+        v.update(user_params)
+        head :no_content
+      end
+    end
   end
 
   def destroy
-    @user.destroy
-    head :no_content
+    @use = User.all
+    @use.each do |v|
+      if v.id == params[:id]
+        v.destroy
+        head :no_content
+      end
+    end
   end
 
   private

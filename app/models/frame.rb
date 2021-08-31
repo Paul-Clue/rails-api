@@ -1,3 +1,4 @@
+# rubocop:disable all
 class Frame < ApplicationRecord
   has_one_attached :mag
   has_many :appointments

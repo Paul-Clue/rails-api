@@ -1,3 +1,4 @@
+# rubocop:disable all
 class AppointmentsSerializer < ActiveModel::Serializer
   attributes :id, :date, :user, :frame, :city
 

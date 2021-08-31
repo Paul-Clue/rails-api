@@ -3,5 +3,5 @@ if ENV['RAILS_ENV']
   require 'hirb'
   require 'active_record'
   Hirb.enable
-  ActiveRecord::Base.logger = Logger.new(STDOUT)
+  ActiveRecord::Base.logger = Logger.new($stdout)
 end
