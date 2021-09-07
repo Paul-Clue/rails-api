@@ -14,20 +14,28 @@ class UserController < ApplicationController
 
   # POST /todos
   def create
-    @check = User.all
-    check = false
-    @check.each do |v|
-      if v.password == params[:password] && v.name == params[:name]
-        check = true
-        break
-      end
-    end
-    if check
-      render json: { message: 'no-no' }
+
+    @user = User.create(user_params)
+    if @user.valid?
+      render json: { user: UserSerializer.new(@user) }, status: :created
     else
-      @user = User.create!(user_params)
-      json_response(@user, :created)
+      render json: { error: 'failed to create user' }, status: :not_acceptable
     end
+
+    # @check = User.all
+    # check = false
+    # @check.each do |v|
+    #   if v.password == params[:password] && v.name == params[:name]
+    #     check = true
+    #     break
+    #   end
+    # end
+    # if check
+    #   render json: { message: 'no-no' }
+    # else
+    #   @user = User.create!(user_params)
+    #   json_response(@user, :created)
+    # end
   end
 # rubocop:disable all
   def show
@@ -77,8 +85,12 @@ class UserController < ApplicationController
 
   private
 
+  # def user_params
+  #   params.permit(:name, :password)
+  # end
+
   def user_params
-    params.permit(:name, :password)
+    params.require(:user).permit(:name, :password)
   end
 
   def set_user

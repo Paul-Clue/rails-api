@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-    resources :user do
-      resources :appointments
-    end
-    resources :frame
 
     post 'login', to: 'user#show'
     post 'login2', to: 'user#create'
